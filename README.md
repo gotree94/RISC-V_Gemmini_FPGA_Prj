@@ -92,11 +92,11 @@ Chipyard는 아래 보드의 **XDC + Config를 기본 제공**한다.
 
 | 보드 | FPGA | 대략 가격 | 리눅스 | Gemmini | 비고 |
 |---|---|---|---|---|---|
-| **Nexys Video** | Artix-7 XC7A200T | ~$500~600 | 가능(느림) | 8×8만 간신히 | **입문 최적**, 튜토리얼 풍부, SD카드 있음 |
-| **Arty A7-100T/200T** | Artix-7 | ~$300~500 | 부담 | 제한적 | 베어메탈 실습용. 리눅스+Gemmini엔 부족 |
-| **ZCU104** | Zynq UltraScale+ ZU7EV | ~$1,900 | 가능 | 8×8만(16×16은 LUT 초과) | 비전 AI용. 16×16은 리소스 부족 |
-| **ZCU102** | Zynq UltraScale+ ZU9EG | ~$3,000 | 가능 | 16×16 가능 | 종합 평가용 |
-| **VCU118** | Virtex UltraScale+ XCVU9P (2.5M LC, 6840 DSP) | ~$8,000~9,000 | 매우 원활 | 16×16+ 원활 | **FireSim 공식 보드**, 대형 SA/LLM 최적 |
+| **Nexys Video** | Artix-7 XC7A200T | ~ $500 ~ 600 | 가능(느림) | 8×8만 간신히 | **입문 최적**, 튜토리얼 풍부, SD카드 있음 |
+| **Arty A7-100T/200T** | Artix-7 | ~ $300 ~ 500 | 부담 | 제한적 | 베어메탈 실습용. 리눅스+Gemmini엔 부족 |
+| **ZCU104** | Zynq UltraScale+ ZU7EV | ~ $1,900 | 가능 | 8×8만(16×16은 LUT 초과) | 비전 AI용. 16×16은 리소스 부족 |
+| **ZCU102** | Zynq UltraScale+ ZU9EG | ~ $3,000 | 가능 | 16×16 가능 | 종합 평가용 |
+| **VCU118** | Virtex UltraScale+ XCVU9P (2.5M LC, 6840 DSP) | ~ $8,000 ~ 9,000 | 매우 원활 | 16×16+ 원활 | **FireSim 공식 보드**, 대형 SA/LLM 최적 |
 | Alveo U250 등 | UltraScale+ / PCIe 카드 | 고가 | 특수 | 가능 | 서버/가속카드 형태, 초기 난이도 높음 |
 
 ### 3.4 보드 선정 결론 (추천 시나리오)
