@@ -13,6 +13,25 @@ UC Berkeley의 오픈소스 생태계 **Chipyard**를 사용해 **Rocket Chip(RI
 
 ---
 
+## 보드별 서브디렉토리
+
+| 디렉토리 | 보드 | 접근 방식 | 용도 |
+|---|---|---|---|
+| [`ZCU102/`](ZCU102/README.md) | Zynq UltraScale+ ZCU102 (ZU9EG) | **FPGA 프로토타이핑** (PS+PL, 실물 부팅) | 순수 FPGA 위에서 RISC-V 리눅스 실제 구동 |
+| [`Kria_KV260/`](Kria_KV260/README.md) | Zynq UltraScale+ Kria KV260 (K26) | **FPGA 프로토타이핑** (PS+PL, 저가형) | ARM 보드 중 가성비 선택지. 소형 Gemmini(4×4~8×8) |
+| [`Alveo_U250/`](Alveo_U250/README.md) | Alveo U250 (XCU250, PCIe 카드) | **FireSim FPGA 가속 시뮬레이션** | 사이클 정확 DNN/LLM 성능 측정 |
+
+> 세 플랫폼은 상호 보완적: ZCU102/Kria로 "동작함"을, Alveo U250로 "얼마나 빠른가"를 확인.
+> 각 디렉토리의 `README.md`에 상세 Phase 가이드가 있다.
+
+### 📌 "ARM이 있는 보드(Zybo / Kria / Basys)로도 가능한가?" → [`보드_선정_가이드.md`](보드_선정_가이드.md)
+- **결론**: 원리적으로 가능하다. 단 **PL(FPGA) 리소스, 특히 BRAM/LUT**가 충분해야 한다.
+  - Rocket/Gemmini는 PL에 합성되는 **소프트 코어**이며, **ARM은 성능과 무관한 조력자**다.
+  - **Zybo Z7020 / Basys 3 → 부적합**, **Kria KV260 → 가능(소형)**, **ZCU102/ZCU106 → 권장**.
+- 상세 비교/판정은 [`보드_선정_가이드.md`](보드_선정_가이드.md) 참고.
+
+---
+
 ## 1. 왜 이 조합인가 (기술 스택 이해)
 
 | 구성요소 | 정체 | 역할 |
@@ -92,11 +111,14 @@ Chipyard는 아래 보드의 **XDC + Config를 기본 제공**한다.
 
 | 보드 | FPGA | 대략 가격 | 리눅스 | Gemmini | 비고 |
 |---|---|---|---|---|---|
-| **Nexys Video** | Artix-7 XC7A200T | ~ $500 ~ 600 | 가능(느림) | 8×8만 간신히 | **입문 최적**, 튜토리얼 풍부, SD카드 있음 |
-| **Arty A7-100T/200T** | Artix-7 | ~ $300 ~ 500 | 부담 | 제한적 | 베어메탈 실습용. 리눅스+Gemmini엔 부족 |
-| **ZCU104** | Zynq UltraScale+ ZU7EV | ~ $1,900 | 가능 | 8×8만(16×16은 LUT 초과) | 비전 AI용. 16×16은 리소스 부족 |
-| **ZCU102** | Zynq UltraScale+ ZU9EG | ~ $3,000 | 가능 | 16×16 가능 | 종합 평가용 |
-| **VCU118** | Virtex UltraScale+ XCVU9P (2.5M LC, 6840 DSP) | ~ $8,000 ~ 9,000 | 매우 원활 | 16×16+ 원활 | **FireSim 공식 보드**, 대형 SA/LLM 최적 |
+| **Nexys Video** | Artix-7 XC7A200T | ~$500~600 | 가능(느림) | 8×8만 간신히 | **입문 최적**, 튜토리얼 풍부, SD카드 있음 |
+| **Arty A7-100T/200T** | Artix-7 | ~$300~500 | 부담 | 제한적 | 베어메탈 실습용. 리눅스+Gemmini엔 부족 |
+| **ZCU104** | Zynq UltraScale+ ZU7EV | ~$1,900 | 가능 | 8×8만(16×16은 LUT 초과) | 비전 AI용. 16×16은 리소스 부족 |
+| **Kria KV260/KR260** | Zynq UltraScale+ K26 | ~$250~350 | 가능 | 4×4~8×8 | ARM 보드 중 **가성비 최선**. BRAM 144뿐 → URAM 활용, ZCU106 포팅 필요 |
+| **ZCU102** | Zynq UltraScale+ ZU9EG | ~$3,000 | 가능 | 16×16 가능 | 종합 평가용 |
+| Zybo Z7020 | Zynq-7000 XC7Z020 | ~$250 | 부담 | 불가(BRAM 140) | 이 프로젝트 부적합 |
+| Basys 3 | Artix-7 XC7A35T | ~$150 | 불가 | 불가(DDR 없음) | TinyRocket 입문용 |
+| **VCU118** | Virtex UltraScale+ XCVU9P (2.5M LC, 6840 DSP) | ~$8,000~9,000 | 매우 원활 | 16×16+ 원활 | **FireSim 공식 보드**, 대형 SA/LLM 최적 |
 | Alveo U250 등 | UltraScale+ / PCIe 카드 | 고가 | 특수 | 가능 | 서버/가속카드 형태, 초기 난이도 높음 |
 
 ### 3.4 보드 선정 결론 (추천 시나리오)
