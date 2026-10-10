@@ -1,0 +1,39 @@
+diff --git a/lib/sbi/sbi_hart.c b/lib/sbi/sbi_hart.c
+index 0000000..1111111 100644
+--- a/lib/sbi/sbi_hart.c
++++ b/lib/sbi/sbi_hart.c
+@@ -1,6 +1,18 @@
+ /*
+  * OpenSBI hart (hardware thread) support
+  *
++ * [ZCU102 / Gemmini patch]
++ * Gemmini는 RoCC 커스텀 명령어로 동작하며, RISC-V는 기본적으로
++ * 유저 공간(U-mode)의 커스텀 명령어 실행을 금지한다.
++ * 유저 공간에서 RoCC 상태 접근을 허용하려면 mstatus.XS 필드를
++ * Non-zero(예: Initial/Dirty)로 설정해야 한다.
++ *
++ * 커널측에서는 CONFIG_RISCV_ROCC=y 로 sstatus.XS 를 세팅한다.
++ * (두 단계 중 하나라도 빠지면 유저 프로그램에서 SIGILL 발생)
++ *
+  * Authors: ...
+  */
+ 
+@@ -0,0 +1,0 @@
++/*
++ * NOTE: 실제 함수명/라인은 사용 중인 OpenSBI 버전에 맞게 조정하세요.
++ * 아래는 개념적 패치 예시입니다.
++ */
++
+@@ -100,6 +112,15 @@ static void sbi_hart_configure_mstatus(struct sbi_scratch *scratch)
+ 	unsigned long mstatus = csr_read(CSR_MSTATUS);
+ 
+ 	mstatus = sbi_hart_mstatus_fixup(mstatus);
++
++	/* ---- Gemmini/RoCC 활성화: XS 필드 Non-zero ---- */
++	/* XS 필드는 [16:15]. Initial(01) 또는 Dirty(11)로 설정. */
++	mstatus &= ~MSTATUS_XS;
++	mstatus |= (1UL << 15);   /* Initial */
++	/* ------------------------------------------------ */
++
+ 	csr_write(CSR_MSTATUS, mstatus);
+ }
