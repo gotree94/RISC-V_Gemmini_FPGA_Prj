@@ -1,0 +1,44 @@
+# =============================================================================
+# config_build_recipes.yaml  (발췌/예시)
+# Phase 2: Alveo U250용 FireSim 빌드 레시피
+#
+# 실제 파일: ~/firesim/sims/firesim-staging/sample_config_build_recipes.yaml
+# 아래 항목을 해당 파일에 병합하세요.
+# =============================================================================
+
+# ---- 기본(사전 빌드와 동일): 단일코어 Rocket, Gemmini 없음 ----
+alveo_u250_firesim_rocket_singlecore_no_nic:
+    DESIGN: FireSim
+    TARGET_CONFIG: FireSimRocketConfig
+    PLATFORM_CONFIG: WithAutoILA
+    platform_config_args:
+        fpga_frequency: 100
+        # mem0: DDR 채널 설정(기본 1채널)
+    deploy_strategy: no_nic
+    TARGET_PROJECT_MAKEFRAG: firesim/sample_project/Makefrag
+    bit_builder_recipe: bit-builder-recipes/xilinx_alveo_u250.yaml
+    sim_type: rocket
+
+# ---- 커스텀: Rocket + Gemmini 16x16 ----
+alveo_u250_gemmini_rocket_16x16:
+    DESIGN: FireSim
+    TARGET_CONFIG: FireSimGemminiRocketConfig
+    PLATFORM_CONFIG: WithAutoILA
+    platform_config_args:
+        fpga_frequency: 100          # 타이밍 여유에 따라 상향
+    deploy_strategy: no_nic
+    TARGET_PROJECT_MAKEFRAG: firesim/sample_project/Makefrag
+    bit_builder_recipe: bit-builder-recipes/xilinx_alveo_u250.yaml
+    sim_type: rocket
+
+# ---- (선택) 대형: Rocket + Gemmini 32x32 ----
+alveo_u250_gemmini_rocket_32x32:
+    DESIGN: FireSim
+    TARGET_CONFIG: FireSimGemminiRocket32Config
+    PLATFORM_CONFIG: WithAutoILA
+    platform_config_args:
+        fpga_frequency: 90
+    deploy_strategy: no_nic
+    TARGET_PROJECT_MAKEFRAG: firesim/sample_project/Makefrag
+    bit_builder_recipe: bit-builder-recipes/xilinx_alveo_u250.yaml
+    sim_type: rocket

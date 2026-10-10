@@ -1,0 +1,25 @@
+# =============================================================================
+# config_hwdb.yaml  (Alveo U250)
+# Phase 1/2: 빌드된 비트스트림 목록(HWDB)
+#
+# 실제 파일: ~/firesim/deploy/config_hwdb.yaml
+# key(예: alveo_u250_...)는 config_runtime.yaml 의 default_hw_config 와 일치해야 함.
+# =============================================================================
+
+# ---- 기본 Rocket (사전 빌드 또는 Phase1 빌드 결과) ----
+alveo_u250_firesim_rocket_singlecore_no_nic:
+    bitstream_tar: deploy/results-build/<BUILD_DIR>/<BITSTREAM>.tar.gz
+    deploy_manager: XilinxAlveoU250InstanceDeployManager
+
+# ---- 커스텀 Rocket + Gemmini 16x16 ----
+alveo_u250_gemmini_rocket_16x16:
+    bitstream_tar: deploy/results-build/<BUILD_DIR>/<BITSTREAM>.tar.gz
+    deploy_manager: XilinxAlveoU250InstanceDeployManager
+
+# ---- (선택) 32x32 ----
+alveo_u250_gemmini_rocket_32x32:
+    bitstream_tar: deploy/results-build/<BUILD_DIR>/<BITSTREAM>.tar.gz
+    deploy_manager: XilinxAlveoU250InstanceDeployManager
+
+# 참고: firesim buildbitstream 완료 시 manager가
+#       위 형식의 항목을 그대로 출력해 줍니다(붙여넣기).

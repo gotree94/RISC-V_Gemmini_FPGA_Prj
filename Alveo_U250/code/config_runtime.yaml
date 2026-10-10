@@ -1,0 +1,31 @@
+# =============================================================================
+# config_runtime.yaml  (Alveo U250)
+# Phase 1/3: 무엇을 얼마나 돌릴지 지정
+#
+# 실제 파일: ~/firesim/deploy/config_runtime.yaml
+# =============================================================================
+
+run_farm:
+    base_recipe: run-farm-recipes/externally_provisioned.yaml
+    recipe_arg_overrides:
+        run_farm_hosts_to_use:
+            - localhost: 1
+
+# ---- 사용할 HWDB 키 (config_hwdb.yaml 의 키와 일치) ----
+default_hw_config: alveo_u250_gemmini_rocket_16x16
+
+# ---- 워크로드 ----
+workload:
+    workload_name: resnet50-linux.json     # Phase3 예시
+    terminate_on_completion: true
+
+    # ---- (선택) TracerV 타임라인 트레이스 ----
+    # tracer:
+    #     enable: true
+    #     # 노드/트리거 설정 (문서 참고)
+
+# ---- (선택) DRAM 시뮬레이터 모델 등 기타 옵션은 버전별 문서 참고 ----
+
+# 실행:
+#   cd ~/firesim && source sourceme-manager.sh
+#   firesim runworkload -r deploy/config_runtime.yaml

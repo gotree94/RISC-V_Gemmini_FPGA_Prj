@@ -1,0 +1,24 @@
+# =============================================================================
+# config_build.yaml  (Alveo U250)
+# Phase 1/2: 무엇을 FPGA에 구울지 지정
+#
+# 실제 파일: ~/firesim/deploy/config_build.yaml
+# =============================================================================
+
+build_farm:
+    base_recipe: build-farm-recipes/externally_provisioned.yaml
+    recipe_arg_overrides:
+        build_farm_hosts:
+            - "localhost"          # 로컬에서 Vivado 빌드
+
+# ---- 굽고 싶은 대상(하나 또는 여러 개) ----
+builds_to_run:
+    # 파이프라인 검증용(먼저 이걸로 확인)
+    - alveo_u250_firesim_rocket_singlecore_no_nic
+    # 커스텀 Gemmini
+    - alveo_u250_gemmini_rocket_16x16
+
+builds_to_run_with_priority: []
+
+# ---- 빌드 산출물 위치 ----
+# results-build/ 아래에 설계별 디렉터리 생성
